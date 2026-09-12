@@ -1,0 +1,93 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# KPIT Parking Assist V2.0 — main configuration
+#
+# ⚠ PROTOTYPE VALUES — all thresholds are DEMO / INITIAL values and MUST be
+# re-validated experimentally for any real deployment.  See docs/.
+# ──────────────────────────────────────────────────────────────────────────────
+
+system:
+  mode: simulation          # simulation | camera | hardware | demo | selftest
+  loop_hz: 15               # target pipeline rate (simulation/demo)
+  verbose: false            # verbose per-cycle telemetry
+  duration_s: 0             # 0 = scenario default / run until Ctrl-C
+
+vision:
+  backend: auto             # auto | yolo | tflite | mock
+  model: yolov8n
+  model_path: null          # e.g. models/detector/yolov8n.pt (null = search)
+  confidence_threshold: 0.40
+  input_width: 640
+  input_height: 480
+  denoise: false            # extra denoising (costly on edge — off by default)
+  classes_of_interest: [person, car, truck, bus, motorcycle, bicycle, suitcase]
+
+tracking:
+  backend: auto             # auto | bytetrack | iou
+  iou_threshold: 0.30
+  max_lost_frames: 20
+  velocity:
+    ema_alpha: 0.4          # exponential smoothing on closing speed
+    max_plausible_mps: 5.0  # spike rejection above this
+    history_s: 3.0          # window of (t, distance) kept per track
+
+distance:
+  ultrasonic:
+    enabled: true
+    min_range_m: 0.05
+    max_range_m: 4.5
+    timeout_s: 0.50
+    sample_hz: 20
+    median_window: 5
+  monocular:
+    enabled: true
+    focal_length_px: 600.0  # CALIBRATE for your camera — see tools/calibrate_camera.py
+    known_widths_m:
+      person: 0.50
+      car: 1.80
+      truck: 2.40
+      bus: 2.50
+      motorcycle: 0.80
+      bicycle: 0.60
+      suitcase: 0.50
+    max_distance_m: 20.0
+    min_distance_m: 0.20
+
+fusion:
+  enabled: true
+  disagreement_threshold_m: 0.75
+  conservative_on_disagreement: true   # use the closer valid measurement
+  sensor_trust: 0.90                   # confidence given to a valid ultrasonic
+
+risk:
+  predictor: deterministic_ttc   # deterministic_ttc | ml | mock
+  model_path: null               # e.g. ml/models/risk_model.joblib
+  high_closing_speed_mps: 1.0
+  ttc_warning_s: 3.0
+  ttc_critical_s: 1.5
+
+anomaly:
+  enabled: false                # optional diagnostics aid; never gates safety
+  contamination: 0.05
+
+alerts:
+  enabled: true
+  buzzer_enabled: true
+  led_mapping:
+    safe: green
+    caution: yellow
+    warning: orange
+    critical: red
+    fault: blue
+    unknown: off
+
+diagnostics:
+  sample_every_s: 1.0
+  health_degrade_after_s: 3.0   # component marked DEGRADED after this long without OK
+
+dashboard:
+  host: 127.0.0.1
+  port: 8765
+
+acquisition:
+  queue_size: 32
+  drop_frames_when_busy: true

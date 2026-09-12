@@ -1,0 +1,12 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Logging configuration.
+# ──────────────────────────────────────────────────────────────────────────────
+
+logging:
+  directory: logs
+  level: INFO              # DEBUG | INFO | WARNING | ERROR
+  jsonl: true              # JSON Lines for machine-readable logs
+  rotate_bytes: 10485760   # 10 MB per file
+  rotate_backups: 3        # keep N rotated files
+  console_telemetry: true  # concise per-cycle line (STATE/DIST/OBJ/…)
+  verbose_telemetry: false # extra detail when system.verbose is set

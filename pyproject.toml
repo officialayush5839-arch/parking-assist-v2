@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kpit-parking-assist-v2"
+version = "2.0.0"
+description = "Edge parking-assist prototype: camera CV + ultrasonic fusion, deterministic safety zones, ML advisory risk. Research/demo — not certified."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.24",
+    "PyYAML>=6.0",
+    "psutil>=5.9",
+]
+
+[project.optional-dependencies]
+vision = ["opencv-python>=4.5", "ultralytics>=8.0"]
+ml = ["scikit-learn>=1.3"]
+dashboard = ["fastapi>=0.110", "uvicorn>=0.27"]
+hardware = ["smbus2>=0.4", "RPLCD>=1.4"]
+dev = ["pytest>=7.4"]
+
+[tool.setuptools]
+packages = { find = { include = ["core*", "app*", "camera*", "vision*", "tracking*", "distance*", "fusion*", "ml*", "acquisition*", "processing*", "zone*", "alerts*", "display*", "diagnostics*", "datalog*", "simulation*", "dashboard*", "tools*"] } }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q --import-mode=importlib"

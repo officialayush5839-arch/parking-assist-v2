@@ -1,0 +1,37 @@
+# KPIT Parking Assist V2.0 — Python dependencies
+#
+# Core group is required for simulation / safety / tests (runs on any PC).
+# Vision / ML / Dashboard / Hardware groups are optional and imported lazily;
+# the system degrades to MOCK backends when they are missing.
+#
+#   pip install -r requirements.txt            # everything below
+#   pip install "numpy" "PyYAML" "psutil" "pytest"   # minimal core
+
+# ── Core (required) ───────────────────────────────────────────────────────────
+numpy>=1.24
+PyYAML>=6.0
+psutil>=5.9
+
+# ── Vision (optional; used by real camera + detector backends) ───────────────
+opencv-python>=4.5
+ultralytics>=8.0            # YOLO backend (downloads yolov8n.pt on first use)
+
+# TFLite backend: prefer the lightweight runtime; on ARM boards (Tinker Board)
+# install tflite-runtime directly.  Fall back to the full tensorflow package.
+# tflite-runtime>=2.11
+# tensorflow>=2.13
+
+# ── ML (optional; risk / anomaly models, training + evaluation scripts) ───────
+scikit-learn>=1.3
+
+# ── Dashboard (optional; local diagnostics web UI) ────────────────────────────
+fastapi>=0.110
+uvicorn>=0.27
+
+# ── Hardware (optional; only needed on the target board) ──────────────────────
+# smbus2>=0.4        # I2C LCD
+# RPLCD>=1.4         # I2C LCD
+# (GPIO: use the Tinker Board SDK or RPi.GPIO-compatible library for your kernel)
+
+# ── Dev / tests ───────────────────────────────────────────────────────────────
+pytest>=7.4

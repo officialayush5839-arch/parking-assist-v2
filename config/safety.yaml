@@ -1,0 +1,32 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Safety zones + deterministic safety engine configuration.
+#
+# ⚠⚠ PROTOTYPE / DEMO VALUES ⚠⚠
+# These thresholds are NOT production-safe.  They must be experimentally
+# validated against the real vehicle, sensor placement, and braking/stopping
+# behaviour before any real-world use.  See docs/hardware.md.
+# ──────────────────────────────────────────────────────────────────────────────
+
+safety:
+  zones:
+    safe_min_m: 2.5      # distance ≥ this ⇒ SAFE
+    caution_min_m: 1.8   # caution_min_m ≤ d < safe_min_m   ⇒ CAUTION
+    warning_min_m: 1.0   # warning_min_m ≤ d < caution_min_m ⇒ WARNING
+    critical_min_m: 0.5  # d < critical_min_m               ⇒ CRITICAL
+
+  # Frames a non-hard state must persist before it is committed (anti-flicker).
+  # HARD safety (critical ultrasonic) is immediate and bypasses this.
+  stability_frames: 3
+
+  # Hard-safety override switch.  When True, a valid ultrasonic reading at or
+  # below critical_min_m forces CRITICAL regardless of vision/ML output.
+  hard_safety_enabled: true
+
+  # Advisory reasons
+  high_closing_speed_mps: 1.0
+  ttc_warning_s: 3.0
+  ttc_critical_s: 1.5
+
+  # When no valid distance source exists
+  no_distance_state: FAULT      # FAULT | UNKNOWN
+  degraded_confidence: 0.40     # confidence applied when only one source is valid

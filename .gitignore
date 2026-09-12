@@ -1,0 +1,46 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# ── Downloaded model weights (large binaries — never commit) ────────────────
+models/detector/*
+models/predictor/*
+!models/detector/.gitkeep
+!models/predictor/.gitkeep
+ml/models/*
+!ml/models/.gitkeep
+*.pt
+*.tflite
+*.onnx
+*.engine
+
+# ── Runtime data & logs ──────────────────────────────────────────────────────
+logs/*
+!logs/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/recordings/*
+!data/recordings/.gitkeep
+data/synthetic/*
+!data/synthetic/.gitkeep
+*.jsonl
+
+# ── Secrets / local env ──────────────────────────────────────────────────────
+.env
+*.local
+
+# ── IDE / OS ─────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ── Screenshots / captures ───────────────────────────────────────────────────
+screenshot_*.png

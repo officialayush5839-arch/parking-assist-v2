@@ -1,0 +1,15 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Camera configuration.
+# ──────────────────────────────────────────────────────────────────────────────
+
+camera:
+  backend: auto            # auto | usb | mipi | video | mock
+  width: 640
+  height: 480
+  fps: 15
+  source: 0                # int index (USB) or "/dev/videoN" path (MIPI/CSI)
+  video_file: null         # e.g. data/recordings/sample.mp4 (backend=video)
+  calibration_file: config/camera_calibration.yaml
+  reconnect_attempts: 3
+  reconnect_delay_s: 0.5
+  low_light_threshold: 40  # mean brightness below this ⇒ low-light warning (0 = off)

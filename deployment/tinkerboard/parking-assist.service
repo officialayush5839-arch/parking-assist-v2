@@ -1,0 +1,37 @@
+[Unit]
+Description=KPIT Parking Assist V2.0 — Edge Parking Safety System
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/parking_assist_v2
+ExecStart=/opt/parking_assist_v2/venv/bin/python -m app.main --mode hardware --dashboard
+ExecStop=/bin/kill -TERM $MAINPID
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=parking-assist
+
+# Environment
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/opt/parking_assist_v2
+
+# Security hardening (optional, uncomment if supported)
+# NoNewPrivileges=true
+# ProtectSystem=strict
+# ProtectHome=true
+# ReadWritePaths=/opt/parking_assist_v2/logs
+
+# Resource limits
+LimitNOFILE=1024
+MemoryMax=512M
+CPUQuota=80%
+
+[Install]
+WantedBy=multi-user.target
