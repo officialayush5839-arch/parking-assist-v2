@@ -24,9 +24,6 @@
 
 </div>
 
-> ⚠️ **RESEARCH & DEMO PROTOTYPE**: Designed for edge computing and automotive ADAS research on ARM Single Board Computers (ASUS Tinker Board / Raspberry Pi). Safety thresholds are demo baselines and require physical vehicle calibration before field deployment.
-
----
 
 ## 🌟 Highlights & Innovations
 
